@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Transfer Money</h1>
+  <form method="post" action="{% url 'transfer_money' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="bg-blue-900 text-white hover:text-blue-900 hover:bg-white border border-blue-900 font-bold px-4 py-2 rounded-lg" type="submit">
+      Transfer
+    </button>
+  </form>
+{% endblock %}
