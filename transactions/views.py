@@ -7,7 +7,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.views.generic import CreateView, ListView
 from transactions.constants import DEPOSIT, WITHDRAWL,LOAN, LOAN_PAID
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from datetime import datetime
 from django.db.models import Sum
@@ -232,7 +232,9 @@ class TransferMoneyView(LoginRequiredMixin, View):
             if source_account.balance >= amount:
                 source_account.balance -= amount
                 destination_account.balance += amount
-
+                send_transaction_email(self.request.user,amount, "Withdraw Message", 'transactions/withdrawl_email.html')
+                send_transaction_email(destination_account.user,amount, "Deposit Message", 'transactions/deposite_email.html')
+        
                 source_account.save()
                 destination_account.save()
 
